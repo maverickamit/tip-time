@@ -18,6 +18,7 @@ package com.example.tiptime
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -83,6 +84,7 @@ fun TipTimeLayout() {
         EditNumberField(
             amountInput,
             { amountInput = it },
+            R.string.bill_amount,
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
@@ -99,6 +101,7 @@ fun TipTimeLayout() {
 fun EditNumberField(
     value: String,
     onValueChange: (String) -> Unit,
+    @StringRes label: Int,
     modifier: Modifier = Modifier
         .padding(bottom = 32.dp)
         .fillMaxWidth()
@@ -106,7 +109,7 @@ fun EditNumberField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = stringResource(id = R.string.bill_amount)) },
+        label = { Text(text = stringResource(id = label)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier
