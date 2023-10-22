@@ -91,7 +91,7 @@ fun TipTimeLayout() {
 @Composable
 fun EditNumberField(modifier: Modifier = Modifier) {
     var amountInput by remember {
-        mutableStateOf("0")
+        mutableStateOf("")
     }
     TextField(
         value = amountInput,
