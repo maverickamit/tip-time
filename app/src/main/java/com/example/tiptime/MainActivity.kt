@@ -89,9 +89,12 @@ fun EditNumberField(modifier: Modifier = Modifier){
     var amountInput by remember {
         mutableStateOf("0")
     }
-    TextField(value = amountInput   , onValueChange = { amountInput = it} ,modifier = modifier)
+    TextField(value = amountInput,
+        label={Text(text = stringResource(id = R.string.bill_amount))},
+        singleLine = true,
+        onValueChange = { amountInput = it},
+        modifier = modifier)
 }
-
 
 /**
  * Calculates the tip based on the user input and format the tip amount
