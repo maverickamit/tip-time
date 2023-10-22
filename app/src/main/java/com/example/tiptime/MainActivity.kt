@@ -69,7 +69,13 @@ fun TipTimeLayout() {
         mutableStateOf("")
     }
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+
+    var tipAmountInput by remember {
+        mutableStateOf("")
+    }
+    val tipPercent = tipAmountInput.toDoubleOrNull() ?: 0.0
+
+    val tip = calculateTip(amount,tipPercent)
     Column(
         modifier = Modifier.padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,6 +91,14 @@ fun TipTimeLayout() {
             amountInput,
             { amountInput = it },
             R.string.bill_amount,
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()
+        )
+        EditNumberField(
+            tipAmountInput,
+            { tipAmountInput = it },
+            R.string.how_was_the_service,
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
