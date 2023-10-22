@@ -35,6 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -73,9 +75,11 @@ fun TipTimeLayout() {
                 .padding(bottom = 16.dp)
                 .align(alignment = Alignment.Start)
         )
-        EditNumberField(modifier = Modifier
-            .padding(bottom = 32.dp)
-            .fillMaxWidth())
+        EditNumberField(
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()
+        )
         Text(
             text = stringResource(R.string.tip_amount, "$0.00"),
             style = MaterialTheme.typography.displaySmall
@@ -85,15 +89,18 @@ fun TipTimeLayout() {
 }
 
 @Composable
-fun EditNumberField(modifier: Modifier = Modifier){
+fun EditNumberField(modifier: Modifier = Modifier) {
     var amountInput by remember {
         mutableStateOf("0")
     }
-    TextField(value = amountInput,
-        label={Text(text = stringResource(id = R.string.bill_amount))},
+    TextField(
+        value = amountInput,
+        onValueChange = { amountInput = it },
+        label = { Text(text = stringResource(id = R.string.bill_amount)) },
         singleLine = true,
-        onValueChange = { amountInput = it},
-        modifier = modifier)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = modifier
+    )
 }
 
 /**
