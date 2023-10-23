@@ -21,11 +21,13 @@ import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Switch
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
@@ -76,6 +79,10 @@ fun TipTimeLayout() {
     }
     val tipPercent = tipAmountInput.toDoubleOrNull() ?: 0.0
 
+    var roundUpTip by remember {
+        mutableStateOf(false)
+    }
+
     val tip = calculateTip(amount, tipPercent)
     Column(
         modifier = Modifier.padding(20.dp),
@@ -111,6 +118,7 @@ fun TipTimeLayout() {
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
+        RoundTheTipRow(checked = roundUpTip, onCheckedChange = { roundUpTip = it })
         Text(
             text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
@@ -136,6 +144,23 @@ fun EditNumberField(
         modifier = modifier
     )
 }
+
+@Composable
+fun RoundTheTipRow(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .size(48.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
+        Switch(checked = checked, onCheckedChange = onCheckedChange)
+    }
+}
+
 
 /**
  * Calculates the tip based on the user input and format the tip amount
