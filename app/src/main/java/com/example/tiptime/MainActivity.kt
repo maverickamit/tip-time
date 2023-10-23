@@ -85,7 +85,7 @@ fun TipTimeLayout() {
         mutableStateOf(false)
     }
 
-    val tip = calculateTip(amount, tipPercent)
+    val tip = calculateTip(amount, tipPercent,roundUpTip)
     Column(
         modifier = Modifier.padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -120,7 +120,11 @@ fun TipTimeLayout() {
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
-        RoundTheTipRow(checked = roundUpTip, onCheckedChange = { roundUpTip = it },modifier=Modifier.padding(bottom = 32.dp))
+        RoundTheTipRow(
+            checked = roundUpTip,
+            onCheckedChange = { roundUpTip = it },
+            modifier = Modifier.padding(bottom = 32.dp)
+        )
         Text(
             text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
@@ -160,7 +164,13 @@ fun RoundTheTipRow(
             .size(48.dp), verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = stringResource(R.string.round_up_tip))
-        Switch(checked = checked, onCheckedChange = onCheckedChange, modifier=Modifier.fillMaxWidth().wrapContentWidth(Alignment.End))
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentWidth(Alignment.End)
+        )
     }
 }
 
@@ -170,8 +180,11 @@ fun RoundTheTipRow(
  * according to the local currency.
  * Example would be "$10.00".
  */
-private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
-    val tip = tipPercent / 100 * amount
+private fun calculateTip(amount: Double, tipPercent: Double = 15.0, roundUp: Boolean): String {
+    var tip = tipPercent / 100 * amount
+    if (roundUp) {
+        tip = kotlin.math.ceil(tip)
+    }
     return NumberFormat.getCurrencyInstance().format(tip)
 }
 
